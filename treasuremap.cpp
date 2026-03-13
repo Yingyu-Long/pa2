@@ -34,8 +34,9 @@ void TreasureMap::SetLOB(PNG& im, pair<int, int> loc, int d) {
 }
 
 PNG TreasureMap::RenderMap() {
-	vector<vector<bool>> visited(base.height(), vector<bool>(base.width(), false));
-	vector<vector<int>> distance(base.height(), vector<int>(base.width(), 0));
+	PNG base_copy = PNG(base);
+	vector<vector<bool>> visited(base_copy.height(), vector<bool>(base_copy.width(), false));
+	vector<vector<int>> distance(base_copy.height(), vector<int>(base_copy.width(), 0));
 	Queue <pair<int, int>> q;
 	visited[start.second][start.first] = true;
 	distance[start.second][start.first] = 0;
@@ -52,12 +53,12 @@ PNG TreasureMap::RenderMap() {
 			}
 		}
 	}
-	return PNG();
+	return base_copy;
 }
 
 
 PNG TreasureMap::RenderMaze() {
-	PNG base_copy = base;
+	PNG base_copy = PNG(base);
 	for (int dx = -3; dx <= 3; dx++) {
 		for (int dy = -3; dy <= 3; dy++) {
 			int x = start.first + dx;
@@ -81,7 +82,7 @@ PNG TreasureMap::RenderMaze() {
 		for(pair<int, int> neighbor : neighbors) {
 			if(Good(visited, current, neighbor)) {
 				visited[neighbor.second][neighbor.first] = true;
-				SetGrey(base_copy, neighbor);
+					SetGrey(base_copy, neighbor);
 				q.Enqueue(neighbor);
 			}
 		}
