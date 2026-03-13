@@ -3,7 +3,6 @@
  * @description Implementations for PA2, Deque class
  * @author (your CWLs)
 **/
-#include "deque.h"
 
 template <class T>
 Deque<T>::Deque() {
@@ -60,8 +59,9 @@ T Deque<T>::PopL() {
  * @return The item that used to be at the right of the Deque.
 **/
 template <class T>
-T Deque<T>::PopR(){
+T Deque<T>::PopR() {
     T removed = data[n2];
+    data.pop_back();
     n2--;
     if(n1 > 0 && n2 - n1 + 1 <= n1) {
         vector<T> temp;
@@ -90,7 +90,7 @@ template <class T>
 T Deque<T>::PeekL() {
     /* YOUR CODE HERE! */
     T peeked;
-    peeked = data.front();
+    peeked = data[n1];
     return peeked;
 }
 
@@ -104,7 +104,7 @@ template <class T>
 T Deque<T>::PeekR() {
     /* YOUR CODE HERE! */
     T peeked;
-    peeked = data.back();
+    peeked = data[n2];
     return peeked;
 }
 
@@ -116,5 +116,5 @@ T Deque<T>::PeekR() {
 template <class T>
 bool Deque<T>::IsEmpty() const {
     /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return data.empty();
+    return n1>n2;
 }
