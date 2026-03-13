@@ -6,8 +6,8 @@
 
 template <class T>
 Deque<T>::Deque() {
-    /* YOUR CODE HERE! */
-
+    n1 = 0;
+    n2 = -1;
 }
 
 /**
@@ -17,8 +17,8 @@ Deque<T>::Deque() {
 **/
 template <class T>
 void Deque<T>::PushR(T newItem) {
-    /* YOUR CODE HERE! */
-
+    data.push_back(newItem);
+    n2++;
 }
 
 /**
@@ -31,9 +31,25 @@ void Deque<T>::PushR(T newItem) {
 **/
 template <class T>
 T Deque<T>::PopL() {
-    /* YOUR CODE HERE! */
-    T removed;
+    T removed = data[n1];
+    n1++;
 
+    if(n1 > 0 && n2 - n1 + 1 <= n1) {
+        vector<T> temp;
+        for(int i = n1; i <= n2; i++) {
+            temp.push_back(data[i]);
+        }
+        data = temp;
+        n2 = n2 - n1;
+        n1 = 0;
+    }
+
+    if(n1 > n2) {
+        n1 = 0;
+        n2 = -1;
+        data.clear();
+    }
+    
     return removed;
 }
 /**
@@ -44,11 +60,23 @@ T Deque<T>::PopL() {
 **/
 template <class T>
 T Deque<T>::PopR() {
-    /* YOUR CODE HERE! */
-    T removed;
-
+    T removed = data[n2];
+    n2--;
+    if(n1 > 0 && n2 - n1 + 1 <= n1) {
+        vector<T> temp;
+        for(int i = n1; i <= n2; i++) {
+            temp.push_back(data[i]);
+        }
+        data = temp;
+        n2 = n2 - n1;
+        n1 = 0;
+    }
+    if(n1 > n2) {
+        n1 = 0;
+        n2 = -1;
+        data.clear();
+    }
     return removed;
-}
 
 /**
  * Finds the object at the left of the Deque, and returns it to the
