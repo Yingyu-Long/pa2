@@ -10,7 +10,40 @@
 using namespace std;
 
 Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
-    /* YOUR CODE HERE */
+    vector<vector<bool>> visited(mapImg.height(), vector<bool>(mapImg.width(), false));
+    vector<vector<int>> distance(mapImg.height(), vector<int>(mapImg.width(), 0));
+    vector<vector<pair<int, int>>> discover_from(mapImg.height(), vector<pair<int, int>>(mapImg.width(), make_pair(-1, -1)));
+    Queue <pair<int, int>> q;
+
+    visited[start.second][start.first] = true;
+    distance[start.second][start.first] = 0;
+    q.Enqueue(start);
+
+    // Find the treasure and build the discover_from table
+    pair<int, int> current;
+    while(!q.IsEmpty()){
+        current = q.Dequeue();
+        vector<pair<int, int>> neighbors = Neighbours(current);
+        for(pair<int, int> neighbor : neighbors) {
+            if(Good(visited, distance, current, neighbor)) {
+                visited[neighbor.second][neighbor.first] = true;
+                distance[neighbor.second][neighbor.first] = distance[current.second][current.first] + 1;
+                discover_from[neighbor.second][neighbor.first] = current;
+                q.Enqueue(neighbor);
+            }
+        }
+    }
+
+    // Backtrack from the treasure to the start using the discover_from table to build the pathPts vector
+    pair<int, int> back_track = current;
+    while(back_track != start) {
+        pathPts.push_back(back_track);
+        back_track = discover_from[back_track.second][back_track.first];
+    }
+
+    // Reverse the pathPts vector so that it goes from start to treasure
+    pathPts.push_back(start);
+    reverse(pathPts.begin(), pathPts.end());
 }
 
 PNG Decoder::RenderSolution(){
@@ -31,14 +64,13 @@ void Decoder::SetGrey(PNG& im, pair<int, int> loc){
 }
 
 pair<int, int> Decoder::FindSpot(){
-    /* REPLACE THE LINES BELOW WITH YOUR CODE */
     pair<int, int> spot;
+    spot = pathPts[pathPts.size() - 1]; // the last point in the pathPts vector is the treasure
     return spot;
 }
 
 int Decoder::PathLength(){
-    /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return -1;
+    return pathPts.size() - 1;
 }
 
 bool Decoder::Good(vector<vector<bool>>& v, vector<vector<int>>& d, pair<int, int> curr, pair<int, int> next){
