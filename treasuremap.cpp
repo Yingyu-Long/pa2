@@ -9,17 +9,25 @@
 using namespace std;
 
 TreasureMap::TreasureMap(const PNG& baseim, const PNG& mazeim, pair<int, int> s) {
-	/* YOUR CODE HERE */
-
+	base = baseim;
+	maze = mazeim;
+	start = s;
 }
 
 void TreasureMap::SetGrey(PNG& im, pair<int, int> loc) {
-	/* YOUR CODE HERE */
-
+	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
+	pixel-> r = 2*(pixel->r/4);
+	pixel-> g = 2*(pixel->g/4);
+	pixel-> b = 2*(pixel->b/4);
 }
 
 void TreasureMap::SetLOB(PNG& im, pair<int, int> loc, int d) {
-	/* YOUR CODE HERE */
+	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
+	int r = pixel->r;
+	int g = pixel->g;
+	int b = pixel->b;
+	
+	
 
 }
 
