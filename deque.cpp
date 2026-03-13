@@ -60,7 +60,7 @@ template <class T>
 T Deque<T>::PeekL() {
     /* YOUR CODE HERE! */
     T peeked;
-
+    peeked = data.front();
     return peeked;
 }
 
@@ -74,7 +74,7 @@ template <class T>
 T Deque<T>::PeekR() {
     /* YOUR CODE HERE! */
     T peeked;
-
+    peeked = data.back();
     return peeked;
 }
 
@@ -86,5 +86,5 @@ T Deque<T>::PeekR() {
 template <class T>
 bool Deque<T>::IsEmpty() const {
     /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return true;
+    return data.empty();
 }
