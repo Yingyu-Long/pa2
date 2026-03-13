@@ -28,9 +28,9 @@ void TreasureMap::SetLOB(PNG& im, pair<int, int> loc, int d) {
 	unsigned char b_mod = d_mod & 0b11;
 
 	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
-	pixel->r = pixel->r & r_mod; // set the 2 least significant bits of r to be the 2 most significant bits of d
-	pixel->g = pixel->g & g_mod;
-	pixel->b = pixel->b & b_mod;
+	pixel->r = (pixel->r & 252) | r_mod; // set the 2 least significant bits of r to be the 2 most significant bits of d
+	pixel->g = (pixel->g & 252) | g_mod;
+	pixel->b = (pixel->b & 252) | b_mod;
 }
 
 PNG TreasureMap::RenderMap() {
