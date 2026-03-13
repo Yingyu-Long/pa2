@@ -9,6 +9,13 @@
 #include "stack.h"
 using namespace std;
 
+static void setRed(PNG& im, pair<int, int> loc) {
+    RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
+    pixel-> r = 255;
+    pixel-> g = 0;
+    pixel-> b = 0;
+}
+
 Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
     vector<vector<bool>> visited(mapImg.height(), vector<bool>(mapImg.width(), false));
     vector<vector<int>> distance(mapImg.height(), vector<int>(mapImg.width(), 0));
@@ -47,13 +54,42 @@ Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
 }
 
 PNG Decoder::RenderSolution(){
-    /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return PNG();
+    for(pair<int, int> loc : pathPts) {
+        setRed(mapImg, loc);
+    }
+    return mapImg;
 }
 
 PNG Decoder::RenderMaze(){
-    /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return PNG();
+    for(int dx = -3; dx <= 3; dx++){
+        for(int dy = -3; dy <= 3; dy++){
+            int x = start.first + dx;
+            int y = start.second + dy;
+            if (x >= 0 && x < mapImg.width() && y >= 0 && y < mapImg.height()) {
+                setRed(mapImg, make_pair(x, y));
+            }
+        }
+    }
+    Queue<pair<int, int>> q;
+    vector<vector<bool>> visited(mapImg.height(), vector<bool>(mapImg.width(), false));
+    vector<vector<int>> distance(mapImg.height(), vector<int>(mapImg.width(), 0));
+    SetGrey(mapImg, start);
+    q.Enqueue(start);
+    visited[start.second][start.first] = true;
+    distance[start.second][start.first] = 0;
+    while (!q.IsEmpty()){
+        pair<int, int> curr = q.Dequeue();
+        vector<pair<int,int>> Neighbour = Neighbours(curr);
+        for(pair<int, int> neighbor : Neighbour) {
+            if(Good(visited, distance, curr, neighbor)) {
+                visited[neighbor.second][neighbor.first] = true;
+                distance[neighbor.second][neighbor.first] = distance[curr.second][curr.first] + 1;
+                SetGrey(mapImg, neighbor);
+                q.Enqueue(neighbor);
+            }
+        }  
+    }
+    return mapImg;
 }
 
 void Decoder::SetGrey(PNG& im, pair<int, int> loc){
