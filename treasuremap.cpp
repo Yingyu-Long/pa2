@@ -48,7 +48,7 @@ PNG TreasureMap::RenderMap() {
 			if(Good(visited, current, neighbor)) {
 				visited[neighbor.second][neighbor.first] = true;
 				distance[neighbor.second][neighbor.first] = distance[current.second][current.first] + 1;
-				SetLOB(base, neighbor, distance[neighbor.second][neighbor.first]);
+				SetLOB(base_copy , neighbor, distance[neighbor.second][neighbor.first]);
 				q.Enqueue(neighbor);
 			}
 		}
