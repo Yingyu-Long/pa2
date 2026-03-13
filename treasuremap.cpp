@@ -45,7 +45,17 @@ PNG TreasureMap::RenderMaze() {
 }
 
 bool TreasureMap::Good(vector<vector<bool>>& v, pair<int, int> curr, pair<int, int> next) {
-	//if (next.first
+	// within the image
+	if (next.first < 0 || next.first >= maze.width()) return false;
+	if (next.second < 0 || next.second >= maze.height()) return false;
+
+	// unvisited
+	if(v[next.second][next.first]) return false;
+	
+	// same colour as curr in the maze image
+	if(maze.getPixel(next.first, next.second) != maze.getPixel(curr.first, curr.second)) return false;
+	
+	return true;
 }
 
 vector<pair<int, int>> TreasureMap::Neighbours(pair<int, int> curr) {
