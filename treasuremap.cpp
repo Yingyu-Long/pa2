@@ -39,6 +39,7 @@ PNG TreasureMap::RenderMap() {
 	Queue <pair<int, int>> q;
 	visited[start.second][start.first] = true;
 	distance[start.second][start.first] = 0;
+	q.Enqueue(start);
 	while(!q.IsEmpty()){
 		pair<int, int> current = q.Dequeue();
 		vector<pair<int, int>> neighbors = Neighbours(current);
