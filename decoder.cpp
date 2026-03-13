@@ -7,6 +7,7 @@
 #include "decoder.h"
 #include "queue.h"
 #include "stack.h"
+#include <algorithm>
 using namespace std;
 
 static void setRed(PNG& im, pair<int, int> loc) {
