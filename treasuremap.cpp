@@ -40,6 +40,8 @@ PNG TreasureMap::RenderMap() {
 	Queue <pair<int, int>> q;
 	visited[start.second][start.first] = true;
 	distance[start.second][start.first] = 0;
+
+	SetLOB(base_copy, start, 0);
 	q.Enqueue(start);
 	while(!q.IsEmpty()){
 		pair<int, int> current = q.Dequeue();
@@ -84,6 +86,19 @@ PNG TreasureMap::RenderMaze() {
 				visited[neighbor.second][neighbor.first] = true;
 					SetGrey(base_copy, neighbor);
 				q.Enqueue(neighbor);
+			}
+		}
+	}
+
+	for (int dx = -3; dx <= 3; dx++) {
+		for (int dy = -3; dy <= 3; dy++) {
+			int x = start.first + dx;
+			int y = start.second + dy;
+			if(x >=0 && x <base_copy.width() && y >= 0 && y < base_copy.height()) {
+				RGBAPixel* pixel = base_copy.getPixel(x, y);
+				pixel->r = 255;
+				pixel->g = 0;
+				pixel->b = 0;
 			}
 		}
 	}
