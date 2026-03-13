@@ -22,10 +22,10 @@ void TreasureMap::SetGrey(PNG& im, pair<int, int> loc) {
 }
 
 void TreasureMap::SetLOB(PNG& im, pair<int, int> loc, int d) {
-	uint64_t d_mod = d%64; // get the 6 least significant bits of d
-	uint8_t r_mod = (d_mod >> 4) & 0b11; // get the 2 most significant bits of d 
-	uint8_t g_mod = (d_mod >> 2) & 0b11;
-	uint8_t b_mod = d_mod & 0b11;
+	int d_mod = d%64; // get the 6 least significant bits of d
+	unsigned char r_mod = (d_mod >> 4) & 0b11; // get the 2 most significant bits of d 
+	unsigned char g_mod = (d_mod >> 2) & 0b11;
+	unsigned char b_mod = d_mod & 0b11;
 
 	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
 	pixel->r = pixel->r & r_mod; // set the 2 least significant bits of r to be the 2 most significant bits of d
