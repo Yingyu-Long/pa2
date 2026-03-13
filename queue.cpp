@@ -1,7 +1,7 @@
 /**
  * @file queue.cpp
  * @description Implementations for PA2, Queue class
- * @author (your CWLs)
+ * @author cau06
 **/
 
 /**
@@ -12,7 +12,7 @@
 template <class T>
 void Queue<T>::Enqueue(T newItem) {
     /* YOUR CODE HERE! */
-
+    myQueue.PushR(newItem);
 }
 
 /**
@@ -25,7 +25,7 @@ template <class T>
 T Queue<T>::Dequeue() {
     /* YOUR CODE HERE! */
     T removed;
-
+    removed = myQueue.PopL();
     return removed;
 }
 
@@ -39,7 +39,7 @@ template <class T>
 T Queue<T>::Peek() {
     /* YOUR CODE HERE! */
     T peeked;
-
+    peeked = myQueue.PeekL();
     return peeked;
 }
 
@@ -51,5 +51,5 @@ T Queue<T>::Peek() {
 template <class T>
 bool Queue<T>::IsEmpty() const {
     /* REPLACE THE LINE BELOW WITH YOUR CODE */
-    return true;
+    return myQueue.IsEmpty();
 }

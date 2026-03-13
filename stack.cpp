@@ -1,7 +1,7 @@
 /**
  * @file stack.cpp
  * @description Implementations for PA2, Stack class
- * @author (your CWLs)
+ * @author cau06
 **/
 
 /**
