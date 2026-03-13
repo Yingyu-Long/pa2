@@ -50,7 +50,7 @@ Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
 
     // Reverse the pathPts vector so that it goes from start to treasure
     pathPts.push_back(start);
-    reverse(pathPts.begin(), pathPts.end());
+    std::reverse(pathPts.begin(), pathPts.end());
 }
 
 PNG Decoder::RenderSolution(){
