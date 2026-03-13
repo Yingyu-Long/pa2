@@ -3,6 +3,7 @@
  * @description Implementations for PA2, Deque class
  * @author (your CWLs)
 **/
+#include "deque.h"
 
 template <class T>
 Deque<T>::Deque() {
@@ -59,7 +60,7 @@ T Deque<T>::PopL() {
  * @return The item that used to be at the right of the Deque.
 **/
 template <class T>
-T Deque<T>::PopR() {
+T Deque<T>::PopR(){
     T removed = data[n2];
     n2--;
     if(n1 > 0 && n2 - n1 + 1 <= n1) {
@@ -77,6 +78,7 @@ T Deque<T>::PopR() {
         data.clear();
     }
     return removed;
+}
 
 /**
  * Finds the object at the left of the Deque, and returns it to the
