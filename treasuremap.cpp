@@ -22,13 +22,15 @@ void TreasureMap::SetGrey(PNG& im, pair<int, int> loc) {
 }
 
 void TreasureMap::SetLOB(PNG& im, pair<int, int> loc, int d) {
-	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
-	int r = pixel->r;
-	int g = pixel->g;
-	int b = pixel->b;
-	
-	
+	uint64_t d_mod = d%64; // get the 6 least significant bits of d
+	uint8_t r_mod = (d_mod >> 4) & 0b11; // get the 2 most significant bits of d 
+	uint8_t g_mod = (d_mod >> 2) & 0b11;
+	uint8_t b_mod = d_mod & 0b11;
 
+	RGBAPixel* pixel = im.getPixel(loc.first, loc.second);
+	pixel->r = pixel->r & r_mod; // set the 2 least significant bits of r to be the 2 most significant bits of d
+	pixel->g = pixel->g & g_mod;
+	pixel->b = pixel->b & b_mod;
 }
 
 PNG TreasureMap::RenderMap() {
@@ -43,8 +45,7 @@ PNG TreasureMap::RenderMaze() {
 }
 
 bool TreasureMap::Good(vector<vector<bool>>& v, pair<int, int> curr, pair<int, int> next) {
-	/* REPLACE THE LINE BELOW WITH YOUR CODE */
-	return false;
+	//if (next.first
 }
 
 vector<pair<int, int>> TreasureMap::Neighbours(pair<int, int> curr) {
