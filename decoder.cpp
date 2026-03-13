@@ -55,26 +55,28 @@ Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
 }
 
 PNG Decoder::RenderSolution(){
+    PNG copyImg = mapImg;
     for(pair<int, int> loc : pathPts) {
-        setRed(mapImg, loc);
+        setRed(copyImg, loc);
     }
-    return mapImg;
+    return copyImg;
 }
 
 PNG Decoder::RenderMaze(){
+    PNG copyImg = mapImg;
     for(int dx = -3; dx <= 3; dx++){
         for(int dy = -3; dy <= 3; dy++){
             int x = start.first + dx;
             int y = start.second + dy;
             if (x >= 0 && x < mapImg.width() && y >= 0 && y < mapImg.height()) {
-                setRed(mapImg, make_pair(x, y));
+                setRed(copyImg, make_pair(x, y));
             }
         }
     }
     Queue<pair<int, int>> q;
     vector<vector<bool>> visited(mapImg.height(), vector<bool>(mapImg.width(), false));
     vector<vector<int>> distance(mapImg.height(), vector<int>(mapImg.width(), 0));
-    SetGrey(mapImg, start);
+    SetGrey(copyImg, start);
     q.Enqueue(start);
     visited[start.second][start.first] = true;
     distance[start.second][start.first] = 0;
@@ -85,12 +87,12 @@ PNG Decoder::RenderMaze(){
             if(Good(visited, distance, curr, neighbor)) {
                 visited[neighbor.second][neighbor.first] = true;
                 distance[neighbor.second][neighbor.first] = distance[curr.second][curr.first] + 1;
-                SetGrey(mapImg, neighbor);
+                SetGrey(copyImg, neighbor);
                 q.Enqueue(neighbor);
             }
         }  
     }
-    return mapImg;
+    return copyImg;
 }
 
 void Decoder::SetGrey(PNG& im, pair<int, int> loc){
