@@ -40,7 +40,6 @@ PNG TreasureMap::RenderMap() {
 	Queue <pair<int, int>> q;
 	visited[start.second][start.first] = true;
 	distance[start.second][start.first] = 0;
-
 	SetLOB(base_copy, start, 0);
 	q.Enqueue(start);
 	while(!q.IsEmpty()){
@@ -78,7 +77,6 @@ PNG TreasureMap::RenderMaze() {
 			}
 		}
 	}
-
 	for (int dx = -3; dx <= 3; dx++) {
 		for (int dy = -3; dy <= 3; dy++) {
 			int x = start.first + dx;
@@ -96,14 +94,18 @@ PNG TreasureMap::RenderMaze() {
 
 bool TreasureMap::Good(vector<vector<bool>>& v, pair<int, int> curr, pair<int, int> next) {
 	// within the image
-	if (next.first < 0 || next.first >= maze.width()) return false;
-	if (next.second < 0 || next.second >= maze.height()) return false;
+	if (next.first < 0 || next.first >= (int)maze.width()) return false;
+	if (next.second < 0 || next.second >= (int)maze.height()) return false;
 
 	// unvisited
 	if(v[next.second][next.first]) return false;
 	
 	// same colour as curr in the maze image
-	if(maze.getPixel(next.first, next.second) != maze.getPixel(curr.first, curr.second)) return false;
+	RGBAPixel* nextPixel = maze.getPixel(next.first, next.second);
+	RGBAPixel* currPixel = maze.getPixel(curr.first, curr.second);
+	if (nextPixel->r != currPixel->r || nextPixel->g != currPixel->g ||nextPixel->b != currPixel->b ||nextPixel->a != currPixel->a){
+	 return false;
+	}
 
 	return true;
 }
