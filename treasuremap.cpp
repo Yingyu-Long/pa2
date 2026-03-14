@@ -61,18 +61,7 @@ PNG TreasureMap::RenderMap() {
 
 PNG TreasureMap::RenderMaze() {
 	PNG base_copy = PNG(base);
-	for (int dx = -3; dx <= 3; dx++) {
-		for (int dy = -3; dy <= 3; dy++) {
-			int x = start.first + dx;
-			int y = start.second + dy;
-			if(x >=0 && x <base_copy.width() && y >= 0 && y < base_copy.height()) {
-				RGBAPixel* pixel = base_copy.getPixel(x, y);
-				pixel->r = 255;
-				pixel->g = 0;
-				pixel->b = 0;
-			}
-		}
-	}
+	
 	vector<vector<bool>> visited(base_copy.height(), vector<bool>(base_copy.width(), false));
 	Queue <pair<int, int>> q;
 	visited[start.second][start.first] = true;

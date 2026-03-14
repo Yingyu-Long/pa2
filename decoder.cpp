@@ -64,15 +64,6 @@ PNG Decoder::RenderSolution(){
 
 PNG Decoder::RenderMaze(){
     PNG copyImg = mapImg;
-    for(int dx = -3; dx <= 3; dx++){
-        for(int dy = -3; dy <= 3; dy++){
-            int x = start.first + dx;
-            int y = start.second + dy;
-            if (x >= 0 && x < mapImg.width() && y >= 0 && y < mapImg.height()) {
-                setRed(copyImg, make_pair(x, y));
-            }
-        }
-    }
     Queue<pair<int, int>> q;
     vector<vector<bool>> visited(mapImg.height(), vector<bool>(mapImg.width(), false));
     vector<vector<int>> distance(mapImg.height(), vector<int>(mapImg.width(), 0));
@@ -92,6 +83,17 @@ PNG Decoder::RenderMaze(){
             }
         }  
     }
+
+    for(int dx = -3; dx <= 3; dx++){
+        for(int dy = -3; dy <= 3; dy++){
+            int x = start.first + dx;
+            int y = start.second + dy;
+            if (x >= 0 && x < mapImg.width() && y >= 0 && y < mapImg.height()) {
+                setRed(copyImg, make_pair(x, y));
+            }
+        }
+    }
+    
     return copyImg;
 }
 
