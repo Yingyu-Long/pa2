@@ -103,7 +103,7 @@ bool TreasureMap::Good(vector<vector<bool>>& v, pair<int, int> curr, pair<int, i
 	if(v[next.second][next.first]) return false;
 	
 	// same colour as curr in the maze image
-	if(maze.getPixel(next.first, next.second) != maze.getPixel(curr.first, curr.second)) return false;
+	if(*(maze.getPixel(next.first, next.second)) != *(maze.getPixel(curr.first, curr.second))) return false;
 
 	return true;
 }

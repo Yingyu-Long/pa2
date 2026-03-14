@@ -28,22 +28,30 @@ Decoder::Decoder(const PNG & tm, pair<int, int> s) : start(s), mapImg(tm) {
     q.Enqueue(start);
 
     // Find the treasure and build the discover_from table
-    pair<int, int> current;
+    pair<int, int> furthest = start;
+    int max_dist = 0;
     while(!q.IsEmpty()){
-        current = q.Dequeue();
+        pair<int, int> current = q.Dequeue();
         vector<pair<int, int>> neighbors = Neighbours(current);
         for(pair<int, int> neighbor : neighbors) {
             if(Good(visited, distance, current, neighbor)) {
                 visited[neighbor.second][neighbor.first] = true;
-                distance[neighbor.second][neighbor.first] = distance[current.second][current.first] + 1;
+                int new_dist = distance[current.second][current.first] + 1;
+                distance[neighbor.second][neighbor.first] = new_dist;
                 discover_from[neighbor.second][neighbor.first] = current;
+
+                if (new_dist > max_dist) {
+                    max_dist = new_dist;
+                    furthest = neighbor;
+                }
+
                 q.Enqueue(neighbor);
             }
         }
     }
 
     // Backtrack from the treasure to the start using the discover_from table to build the pathPts vector
-    pair<int, int> back_track = current;
+    pair<int, int> back_track = furthest;
     while(back_track != start) {
         pathPts.push_back(back_track);
         back_track = discover_from[back_track.second][back_track.first];
@@ -93,7 +101,7 @@ PNG Decoder::RenderMaze(){
             }
         }
     }
-    
+
     return copyImg;
 }
 
